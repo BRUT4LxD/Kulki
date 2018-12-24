@@ -1,4 +1,12 @@
 <div class="container">
+    <div class="basic futureKulkas">
+        <div class="inline" *ngFor="let kulka of futureKulkas">
+            <app-kulka [color]="kulka"></app-kulka>
+            <app-field></app-field>
+        </div>
+    </div>
+</div>
+<div class="container">
     <div class="basic">
         <div *ngFor="let row of board">
             <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
@@ -7,5 +15,4 @@
             </div>
         </div>
     </div>
-        
 </div>
