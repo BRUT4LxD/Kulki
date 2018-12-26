@@ -75,7 +75,6 @@ export class BoardComponent implements OnInit {
     this.changeKulkaPosition(boardElement.position);
     if (!this.checkMatch(boardElement.position)) {
       this.addRandomKulkasOnBoard(Resources.NUMBER_OF_PER_TOUR);
-      this.checkMatch(boardElement.position);
     }
     this.displayListOfFreePlaces();
     this.clickedKulka = this.board[boardElement.position.y][boardElement.position.x];
@@ -247,7 +246,12 @@ export class BoardComponent implements OnInit {
       const temp = this.listOfFreePlaces[randomPlace];
       this.board[temp.y][temp.x].isOccupied = true;
       this.board[temp.y][temp.x].kulkaColor = this.futureKulkas[i];
-      this.listOfFreePlaces.splice(randomPlace, 1);
+      if (this.checkMatch(temp)) {
+        console.log(temp);
+      }
+      else {
+        this.listOfFreePlaces.splice(randomPlace, 1);
+      }
       // console.log(this.listOfFreePlaces.length);
 
     }
