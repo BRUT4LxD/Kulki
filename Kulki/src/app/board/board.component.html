@@ -1,0 +1,25 @@
+
+<div class="buttons-view">
+    <div style="margin: 20px">
+        <button type="button" class="btn btn-secondary btn-lg" (click)="resetBoard()"><font size="10">Reset</font></button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="basic futureKulkas">
+        <div class="inline" *ngFor="let kulka of futureKulkas">
+            <app-kulka [color]="kulka"></app-kulka>
+            <app-field></app-field>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="basic">
+        <div *ngFor="let row of board">
+            <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
+                <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
+                <app-field></app-field>
+            </div>
+        </div>
+    </div>
+</div>
