@@ -18,6 +18,15 @@ export class BoardComponent implements OnInit {
   private isGameOver = false;
   public board: BoardElement[][];
   constructor() {
+  }
+
+  initFutureKulkas(): void {
+    this.futureKulkas = new Array<KulkaColors>();
+    for (let index = 0; index < Resources.NUMBER_OF_PER_TOUR; index++) {
+      this.futureKulkas.push(this.getRandomKulkaColor());
+    }
+  }
+  resetBoard(): void {
     this.initFutureKulkas();
     this.listOfFreePlaces = new Array<Position>();
     this.board = [];
@@ -30,13 +39,6 @@ export class BoardComponent implements OnInit {
     }
     this.addRandomKulkasOnBoard(Resources.NUMBER_OF_PER_TOUR);
     this.getFutureKulkas();
-  }
-
-  initFutureKulkas(): void {
-    this.futureKulkas = new Array<KulkaColors>();
-    for (let index = 0; index < Resources.NUMBER_OF_PER_TOUR; index++) {
-      this.futureKulkas.push(this.getRandomKulkaColor());
-    }
   }
   processClick(boardElement: BoardElement): void {
     this.displayListOfFreePlaces();
@@ -257,9 +259,8 @@ export class BoardComponent implements OnInit {
         return KulkaColors.Green;
     }
   }
-
   ngOnInit() {
-
+    this.resetBoard();
   }
   displayListOfFreePlaces(): void {
     let testBoard: any[] | boolean[][][][];
