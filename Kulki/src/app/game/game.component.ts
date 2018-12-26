@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Resources } from '../resources';
 
 @Component({
   selector: 'app-game',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+  
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
+  }
 
-  constructor() { }
-
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
   ngOnInit() {
+    this.switchLanguage(Resources.LANGUAGE);
   }
 
 }

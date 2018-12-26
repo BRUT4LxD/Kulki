@@ -3,6 +3,7 @@ import { BoardElement } from '../Models/boardElement';
 import { Resources } from '../resources';
 import { KulkaColors } from '../Models/kulkaColors';
 import { Position } from '../Models/position';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-board',
@@ -17,8 +18,14 @@ export class BoardComponent implements OnInit {
   private futureKulkas: Array<KulkaColors>;
   private isGameOver = false;
   public board: BoardElement[][];
-  constructor() {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('en');
   }
+
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
+
 
   initFutureKulkas(): void {
     this.futureKulkas = new Array<KulkaColors>();
@@ -261,6 +268,7 @@ export class BoardComponent implements OnInit {
   }
   ngOnInit() {
     this.resetBoard();
+    this.switchLanguage(Resources.LANGUAGE);
   }
   displayListOfFreePlaces(): void {
     let testBoard: any[] | boolean[][][][];
