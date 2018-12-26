@@ -248,8 +248,7 @@ export class BoardComponent implements OnInit {
       this.board[temp.y][temp.x].kulkaColor = this.futureKulkas[i];
       if (this.checkMatch(temp)) {
         console.log(temp);
-      }
-      else {
+      } else {
         this.listOfFreePlaces.splice(randomPlace, 1);
       }
       // console.log(this.listOfFreePlaces.length);
