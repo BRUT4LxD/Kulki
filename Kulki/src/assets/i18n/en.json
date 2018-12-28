@@ -26,5 +26,9 @@
 	"EnterName": "What's your name",
 	"AgreeOnTerms": "I agree to be a pro player in this beautiful game",
 	"MustAgree": "You must agree tobe the part of the excelence",
-	"HaveAccount": "Already have an account?"
+	"HaveAccount": "Already have an account?",
+	"Theme": "Theme",
+	"Dark": "Dark",
+	"Light": "Light",
+	"Beige": "Beige"
 }

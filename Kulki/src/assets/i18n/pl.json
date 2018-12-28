@@ -26,5 +26,9 @@
 	"EnterName": "Jak masz na imię?",
 	"AgreeOnTerms": "Zgadzam się na bycie imperatorem tej pięknej gry",
 	"MustAgree": "Musisz się zgodzić na bycie imperatorem",
-	"HaveAccount": "Masz już konto?"
+	"HaveAccount": "Masz już konto?",
+	"Theme": "Skórka",
+	"Dark": "Ciemny",
+	"Light": "Jasny",
+	"Beige": "Beżowy"
 }
