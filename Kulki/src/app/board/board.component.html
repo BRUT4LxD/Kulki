@@ -1,24 +1,26 @@
 
-<div class="buttons-view">
-    <div style="margin: 20px">
-        <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">Reset</button>
-    </div>
-</div>
-
-<div class="container">
-    <div class="basic futureKulkas">
-        <div class="inline" *ngFor="let kulka of futureKulkas">
-            <app-kulka [color]="kulka"></app-kulka>
-            <app-field></app-field>
+<div #main class="main-view light">
+    <div class="buttons-view">
+        <div style="margin: 20px">
+            <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">Reset</button>
         </div>
     </div>
-</div>
-<div class="container">
-    <div class="basic">
-        <div *ngFor="let row of board">
-            <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
-                <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
+    
+    <div class="container">
+        <div class="basic futureKulkas">
+            <div class="inline" *ngFor="let kulka of futureKulkas">
+                <app-kulka [color]="kulka"></app-kulka>
                 <app-field></app-field>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="basic">
+            <div *ngFor="let row of board">
+                <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
+                    <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
+                    <app-field></app-field>
+                </div>
             </div>
         </div>
     </div>

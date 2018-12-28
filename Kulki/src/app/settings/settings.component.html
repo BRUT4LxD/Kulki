@@ -1,15 +1,31 @@
 <app-navbar></app-navbar>
-<br>
-<br>
-<br>
-<div class="container" style="margin-left: 5em;">
-    <div translate="" class="font-weight-bold mb-3" >Language</div>
-    <div class="row">
-        <div class="col-4">
-          <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="list-home-list" (click)="switchLanguage(firstLanguageShort)" data-toggle="list" href="#list-home" role="tab" aria-controls="home">{{firstLanguage}}</a>
-            <a class="list-group-item list-group-item-action" id="list-profile-list" (click)="switchLanguage(secondLanguageShort)" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">{{secondLanguage}}</a>
-          </div>
+<div #main class="main-view light">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container" style="margin-left: 5em">
+        <div translate class="font-weight-bold mb-3" >Language</div>
+        <div class="row">
+            <div class="col-4">
+              <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-home-list" (click)="switchLanguage(firstLanguageShort)" data-toggle="list" href="#list-home" role="tab" aria-controls="home">{{firstLanguage}}</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" (click)="switchLanguage(secondLanguageShort)" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">{{secondLanguage}}</a>
+              </div>
+            </div>
         </div>
-    </div>
+        <div translate class="font-weight-bold mb-3" >Theme</div>
+          <div class="row">
+              <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                  <a translate class="list-group-item list-group-item-action active" id="list-home-list" (click)="switchTheme('light')" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Light</a>
+                  <a translate class="list-group-item list-group-item-action" id="list-profile-list" (click)="switchTheme('dark')" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Dark</a>
+                  <a translate class="list-group-item list-group-item-action" id="list-profile-list" (click)="switchTheme('beige')" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Beige</a>
+                </div>
+              </div>
+          </div>
+      </div>
 </div>
+

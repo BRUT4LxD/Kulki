@@ -16,7 +16,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpClientJsonpModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -54,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
          {path: '**', component: PageNotFoundComponent}
       ]),
       HttpClientModule,
+      HttpClientJsonpModule,
       TranslateModule.forRoot({
          loader: {
          provide: TranslateLoader,

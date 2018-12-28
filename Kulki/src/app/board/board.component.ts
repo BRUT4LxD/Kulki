@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { BoardElement } from '../Models/boardElement';
 import { Resources } from '../resources';
 import { KulkaColors } from '../Models/kulkaColors';
 import { Position } from '../Models/position';
 import { TranslateService } from '@ngx-translate/core';
+import '../../styles.scss';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, AfterViewInit {
 
   private listOfFreePlaces: Array<Position>;
   private isClicked = false;
@@ -21,7 +22,10 @@ export class BoardComponent implements OnInit {
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('en');
   }
-
+  @ViewChild('main') mainDiv: ElementRef;
+  ngAfterViewInit(): void {
+    this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
+  }
   switchLanguage(language: string) {
     this.translate.use(language);
   }

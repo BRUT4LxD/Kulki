@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Resources } from '../resources';
+import '../../styles.scss';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('en');
   }
-
+  @ViewChild('main') mainDiv: ElementRef;
+  
+  ngAfterViewInit(): void {
+    this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
+  }
   switchLanguage(language: string) {
     this.translate.use(language);
   }
