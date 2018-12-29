@@ -5,6 +5,8 @@ import { KulkaColors } from '../Models/kulkaColors';
 import { Position } from '../Models/position';
 import { TranslateService } from '@ngx-translate/core';
 import '../../styles.scss';
+import { HttpClient } from '@angular/common/http';
+import { Game } from '../Models/game';
 
 @Component({
   selector: 'app-board',
@@ -17,27 +19,35 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private isClicked = false;
   private clickedKulka: BoardElement;
   private futureKulkas: Array<KulkaColors>;
-  private isGameOver = false;
+  private result = 0;
+  private isGameOver: boolean;
+  private firstPlay = true;
+  private url = 'http://localhost:8080/game/';
   public board: BoardElement[][];
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private http: HttpClient) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
+
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
   switchLanguage(language: string) {
     this.translate.use(language);
   }
-
-
-  initFutureKulkas(): void {
+  initFutureKulkas() {
     this.futureKulkas = new Array<KulkaColors>();
     for (let index = 0; index < Resources.NUMBER_OF_PER_TOUR; index++) {
       this.futureKulkas.push(this.getRandomKulkaColor());
     }
   }
-  resetBoard(): void {
+  resetBoard() {
+    if (!this.firstPlay && !this.isGameOver) {
+      this.addGame();
+    }
+    this.isGameOver = false;
+    this.firstPlay = false;
+    this.result = 0;
     this.initFutureKulkas();
     this.listOfFreePlaces = new Array<Position>();
     this.board = [];
@@ -51,10 +61,17 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.addRandomKulkasOnBoard(Resources.NUMBER_OF_PER_TOUR);
     this.getFutureKulkas();
   }
-  processClick(boardElement: BoardElement): void {
+  addGame() {
+    const game = new Game();
+    game.result = this.result;
+    this.http.post(`${this.url}${Resources.USER.id}`, game).subscribe( a => console.log(a));
+  }
+  processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
     if (this.listOfFreePlaces.length === 0) {
+      this.addGame();
       this.isGameOver = true;
+      alert('GAME OVER');
       return;
     }
     this.isClicked = !this.isClicked;
@@ -66,7 +83,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
       this.clickedKulka = boardElement;
       return;
     }
-
     if ( this.clickedKulka.position.x === boardElement.position.x
       && this.clickedKulka.position.y === boardElement.position.y) {
         alert('You\'ve clicked on the same position');
@@ -82,9 +98,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     this.displayListOfFreePlaces();
     this.clickedKulka = this.board[boardElement.position.y][boardElement.position.x];
-
   }
-  getFutureKulkas(): void {
+  getFutureKulkas() {
     for (let i = 0; i < this.futureKulkas.length; i++) {
       this.futureKulkas[i] = this.getRandomKulkaColor();
     }
@@ -108,6 +123,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     positionsToRemove.forEach(element => {
       this.removeKulkaFromPosition(element.x, element.y);
     });
+    this.result += positionsToRemove.length;
     return positionsToRemove.length > 0;
   }
 
@@ -240,7 +256,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   }
   addRandomKulkasOnBoard(numberOfKulkas: number): void {
-
     for (let i = 0; i < numberOfKulkas; i++) {
       if (this.listOfFreePlaces.length === 0) {
         console.log('!!!!   GAME OVER   !!!!');
@@ -255,11 +270,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
       } else {
         this.listOfFreePlaces.splice(randomPlace, 1);
       }
-      // console.log(this.listOfFreePlaces.length);
-
     }
     this.getFutureKulkas();
-    // console.log(this.listOfFreePlaces);
   }
 
   getRandomKulkaColor(): KulkaColors {
@@ -277,7 +289,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.resetBoard();
     this.switchLanguage(Resources.LANGUAGE);
   }
-  displayListOfFreePlaces(): void {
+  displayListOfFreePlaces() {
     let testBoard: any[] | boolean[][][][];
     testBoard = [];
     for (let i = 0; i < Resources.NUMBER_OF_ROWS; i++) {
@@ -287,7 +299,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
     this.listOfFreePlaces.forEach(e => testBoard[e.y][e.x] = true);
-    console.table(testBoard);
+    //console.table(testBoard);
   }
 
 

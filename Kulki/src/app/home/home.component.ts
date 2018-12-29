@@ -4,6 +4,7 @@ import { Resources } from '../resources';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import '../../styles.scss';
 import { Observable } from 'rxjs';
+import { User } from '../Models/user';
 
 @Component({
   selector: 'app-home',
@@ -17,9 +18,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     translate.setDefaultLang('en');
   }
 
-  public url = 'http://worldclockapi.com/api/json/utc/now';
-  public dayTime: Date;
-  public temperature = '22';
+  private weatherUrl = 'http://worldclockapi.com/api/json/utc/now';
+  private dayTime: Date;
+  private temperature = '22';
+  private userName = 'thisisme';
 
   ngAfterViewInit(): void {
     console.log('Change theme to: ' + 'main-view ' + Resources.THEME);
@@ -31,9 +33,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.switchLanguage(Resources.LANGUAGE);
     this.getTime();
+    this.userName = Resources.USER != null ? Resources.USER.name : 'NoName';
   }
   getTime(): void {
-    this.http.get(this.url).subscribe((a: any) => {
+    this.http.get(this.weatherUrl).subscribe((a: any) => {
       this.dayTime = new Date(a.currentDateTime);
     });
   }

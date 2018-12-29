@@ -1,11 +1,14 @@
-
 <div #main class="main-view light">
     <div class="buttons-view">
         <div style="margin: 20px">
             <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">Reset</button>
         </div>
     </div>
-    
+    <div class="container">
+        <div class="result mt-4">
+            <h2 translate >Result</h2><h2 [(ngModel)]="result" ngDefaultControl class="">{{result}}</h2>
+        </div>
+    </div>
     <div class="container">
         <div class="basic futureKulkas">
             <div class="inline" *ngFor="let kulka of futureKulkas">

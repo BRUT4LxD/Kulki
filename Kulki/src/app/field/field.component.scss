@@ -1,6 +1,9 @@
+
+@import '../../styles.scss';
+
 .square{
-    height: 80px;
-    width: 80px;
+    height: $fieldSize;
+    width: $fieldSize;
     background-color: beige;
     border-style: groove;
     margin-left: 15px;
