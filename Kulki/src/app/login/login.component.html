@@ -1,12 +1,10 @@
+<div #main class="main-view dark"></div>
 <br>
 <br>
 <br>
 <br>
 <br>
 <br>
-<div #main class="main-view light">
-	
-</div>
 <section class="h-100">
 		<div class="container h-100">
 			<div class="row justify-content-md-center h-100">
@@ -17,7 +15,7 @@
 							<form method="GET" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label translate for="email">EmailAddress</label>
-									<input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+									<input [(ngModel)]="email" id="email" type="email" class="form-control" name="email" value="" required autofocus>
 									<div translate class="invalid-feedback">
 										EmailInvalid
 									</div>
@@ -25,13 +23,13 @@
 
 								<div class="form-group">
 									<label translate for="password">Password</label>
-									<input id="password" type="password" class="form-control" name="password" required data-eye>
+									<input [(ngModel)]="password" id="password" type="password" class="form-control" name="password" required data-eye>
 								    <div translate class="invalid-feedback">
 								    	PasswordIsRequired
 							    	</div>
 								</div>
 								<div class="form-group m-0">
-									<button translate type="submit" class="btn btn-primary btn-block" [routerLink]="['/home']">
+									<button translate type="submit" (click)="checkLogin()" class="btn btn-primary btn-block">
 										Login
 									</button>
 								</div>

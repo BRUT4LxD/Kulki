@@ -1,3 +1,5 @@
+@import '../../styles.scss';
+
 .inline{
     float: left;
     margin-top: 10px;
@@ -7,12 +9,12 @@
     border: 3px;
     border-style: groove;
     border-color: bisque;
-    height: 830px;
-    width: 880px;
+    height: $boardHeight;
+    width: $boardWidth;
 }
 .futureKulkas {
-    height: 110px;
-    width: 310px;
+    height: $futureKulkaHeight;
+    width: $futureKulkaWidth;
     right: 50%;
     margin: 20px;
     margin-left: 290px;
@@ -21,4 +23,7 @@
     position: absolute;
     right: 10%;
     top: 40%;
+}
+.result {
+    position: absolute;
 }

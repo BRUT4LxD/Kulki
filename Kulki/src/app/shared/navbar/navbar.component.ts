@@ -20,6 +20,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   switchLanguage(language: string) {
     this.translate.use(language);
   }
+  logout() {
+    Resources.USER = null;
+    Resources.IS_LOGGED_IN = false;
+  }
   ngOnInit() {
     this.switchLanguage(Resources.LANGUAGE);
   }

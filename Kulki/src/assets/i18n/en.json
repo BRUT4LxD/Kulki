@@ -1,4 +1,5 @@
 {
+	"Hi": "Hello",
     "Title": "WELCOME IN KULKI GAME",
 	"Home": "Home",
 	"Game": "Game",
@@ -30,5 +31,6 @@
 	"Theme": "Theme",
 	"Dark": "Dark",
 	"Light": "Light",
-	"Beige": "Beige"
+	"Beige": "Beige",
+	"Result": "Result: "
 }

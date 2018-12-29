@@ -1,5 +1,6 @@
 {
-    "Title": "WITAJ W GRZE W KULKI",
+	"Hi": "WITAJ ",
+    "Title": "ZAGRAJ W KULKI ",
 	"Home": "Strona startowa",
 	"Game": "Gra",
 	"Settings": "Ustawienia",
@@ -30,5 +31,6 @@
 	"Theme": "Skórka",
 	"Dark": "Ciemny",
 	"Light": "Jasny",
-	"Beige": "Beżowy"
+	"Beige": "Beżowy",
+	"Result": "Wynik: "
 }
