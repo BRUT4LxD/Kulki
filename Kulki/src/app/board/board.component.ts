@@ -32,6 +32,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
+  ngOnInit() {
+    this.resetBoard();
+    this.switchLanguage(Resources.LANGUAGE);
+  }
   switchLanguage(language: string) {
     this.translate.use(language);
   }
@@ -284,10 +288,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
       case 3:
         return KulkaColors.Green;
     }
-  }
-  ngOnInit() {
-    this.resetBoard();
-    this.switchLanguage(Resources.LANGUAGE);
   }
   displayListOfFreePlaces() {
     let testBoard: any[] | boolean[][][][];

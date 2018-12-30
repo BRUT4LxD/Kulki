@@ -20,6 +20,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule, HttpClient, HttpClientJsonpModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ResultsComponent } from './results/results.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -40,7 +41,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       LogoutComponent,
       NavbarComponent,
       SignupComponent,
-      SettingsComponent
+      SettingsComponent,
+      ResultsComponent
    ],
    imports: [
       BrowserModule,

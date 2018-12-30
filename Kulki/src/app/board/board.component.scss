@@ -22,8 +22,14 @@
 .buttons-view {
     position: absolute;
     right: 10%;
-    top: 40%;
+    top: 10%;
 }
 .result {
     position: absolute;
+}
+.resultTable {
+    position: absolute;
+    z-index: 1;
+    right: 10%;
+    top: 35%;
 }
