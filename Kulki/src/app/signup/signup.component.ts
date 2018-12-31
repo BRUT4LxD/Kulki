@@ -31,16 +31,14 @@ export class SignupComponent implements OnInit, AfterViewInit {
     this.switchLanguage(Resources.LANGUAGE);
   }
   createPlayer() {
-    console.log('siema');
     const user = new User();
     user.email = this.email;
     user.name = this.name;
     user.password = this.password;
     this.httpService.createPlayer(user)
           .subscribe(
-            a => console.log(a),
-            err => console.log(err),
-            () => console.log(user));
+            a => a,
+            err => console.log(err));
   }
 
 }

@@ -13,6 +13,9 @@ import { HttpService } from 'src/app/http.service';
 export class NavbarComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private httpService: HttpService, private router: Router) {
+    if (!Resources.IS_LOGGED_IN) {
+      httpService.setGuest().subscribe(guest => Resources.USER = guest);
+    }
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
@@ -26,12 +29,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.httpService.setGuest()
         .subscribe( (guest: any) => {
           Resources.USER = guest;
-          Resources.IS_GUEST = true;
-          console.log(Resources.USER);
         },
         err => console.log(err),
-        () => this.router.navigate(['/login'])
-        );
+        () => this.router.navigate(['/login']));
     Resources.IS_LOGGED_IN = false;
   }
   ngOnInit() {

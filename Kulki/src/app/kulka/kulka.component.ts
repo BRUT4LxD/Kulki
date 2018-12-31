@@ -17,8 +17,6 @@ export class KulkaComponent implements OnInit {
   ngOnInit() {
   }
   getKulkaColor(): string {
-
-    console.log(this.color);
     return this.color;
   }
 

@@ -33,7 +33,7 @@ public createPlayer(user: User): Observable<User> {
     })
   });
 }
-public createGame(game: Game): Observable<Game>{
+public createGame(game: Game): Observable<Game> {
   return this.http.post<Game>(`${this.gameUrl}/${Resources.USER.id}`, game);
 }
 public getTime(): Observable<any> {
@@ -43,7 +43,7 @@ public login(email: string, password: string): Observable<User> {
   return this.http.get<User>(`${this.userUrl}?email=${email}&password=${password}`);
 }
 public getTop5Results(): Observable<Game[]> {
-  return this.http.get<Game[]>(`${this.gameUrl}/${Resources.USER.id}`)
+  return this.http.get<Game[]>(`${this.gameUrl}/${!Resources.IS_LOGGED_IN ? '5' : Resources.USER.id}`);
 }
 
 }

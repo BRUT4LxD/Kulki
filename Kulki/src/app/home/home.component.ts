@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.switchLanguage(Resources.LANGUAGE);
     this.getTime();
-    this.userName = Resources.USER != null && !Resources.IS_GUEST ? Resources.USER.name : '';
+    this.userName = Resources.IS_LOGGED_IN ? Resources.USER.name : '';
   }
   getTime(): void {
     this.httpService.getTime().subscribe((a: any) => {

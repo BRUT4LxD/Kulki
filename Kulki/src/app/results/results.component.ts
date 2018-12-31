@@ -19,10 +19,7 @@ export class ResultsComponent implements OnInit {
   getTop5Results() {
     this.httpService.getTop5Results()
           .subscribe( games => this.games = games,
-            err => console.log(err),
-            () => {
-              console.log('Top Results fetched: ', this.games);
-            });
+            err => console.log(err));
   }
 
 }

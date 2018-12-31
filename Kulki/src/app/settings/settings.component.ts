@@ -17,12 +17,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public theme = Resources.THEME;
   constructor(private translate: TranslateService) {
     translate.setDefaultLang('en');
-    console.log(this.theme);
   }
   @ViewChild('main') mainDiv: ElementRef;
 
   ngAfterViewInit(): void {
-    console.log('Change theme to: ' + 'main-view ' + Resources.THEME);
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
   switchLanguage(language: string) {
@@ -55,7 +53,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   switchTheme(theme: string) {
     Resources.THEME = theme;
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
-    console.log('change theme to: ' + theme);
   }
   ngOnInit() {
     this.setLanguageOrder();

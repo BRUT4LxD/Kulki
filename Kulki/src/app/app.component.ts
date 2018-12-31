@@ -23,10 +23,7 @@ export class AppComponent {
     this.httpService.getSettings().subscribe( (a: any) => {
       Resources.LANGUAGE = a.language;
       Resources.THEME = a.theme;
-    }, err => console.log(err),
-    () => {
-      console.log( Resources.THEME);
-    });
+    }, err => console.log(err));
 
   }
 }

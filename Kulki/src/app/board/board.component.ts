@@ -70,8 +70,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.httpService.createGame(game)
       .subscribe(
         a => a,
-        err => console.log(err),
-        () => console.log('Game has been created'));
+        err => console.log(err));
   }
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
@@ -274,9 +273,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       const temp = this.listOfFreePlaces[randomPlace];
       this.board[temp.y][temp.x].isOccupied = true;
       this.board[temp.y][temp.x].kulkaColor = this.futureKulkas[i];
-      if (this.checkMatch(temp)) {
-        console.log(temp);
-      } else {
+      if (!this.checkMatch(temp)) {
         this.listOfFreePlaces.splice(randomPlace, 1);
       }
     }
