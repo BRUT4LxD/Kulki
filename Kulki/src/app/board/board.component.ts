@@ -5,8 +5,8 @@ import { KulkaColors } from '../Models/kulkaColors';
 import { Position } from '../Models/position';
 import { TranslateService } from '@ngx-translate/core';
 import '../../styles.scss';
-import { HttpClient } from '@angular/common/http';
 import { Game } from '../Models/game';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-board',
@@ -22,15 +22,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private result = 0;
   private isGameOver: boolean;
   private firstPlay = true;
-  private url = 'http://localhost:8080/game/';
   public board: BoardElement[][];
-  constructor(private translate: TranslateService, private http: HttpClient) {
+  constructor(private translate: TranslateService, private httpService: HttpService) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
 
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
+  }
+  ngOnInit() {
+    this.resetBoard();
+    this.switchLanguage(Resources.LANGUAGE);
   }
   switchLanguage(language: string) {
     this.translate.use(language);
@@ -64,7 +67,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
-    this.http.post(`${this.url}${Resources.USER.id}`, game).subscribe( a => console.log(a));
+    this.httpService.createGame(game)
+      .subscribe(
+        a => a,
+        err => console.log(err));
   }
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
@@ -258,16 +264,16 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addRandomKulkasOnBoard(numberOfKulkas: number): void {
     for (let i = 0; i < numberOfKulkas; i++) {
       if (this.listOfFreePlaces.length === 0) {
-        console.log('!!!!   GAME OVER   !!!!');
+        this.addGame();
+        this.isGameOver = true;
+        alert('GAME OVER');
         return;
       }
       const randomPlace = Math.floor(Math.random() * this.listOfFreePlaces.length);
       const temp = this.listOfFreePlaces[randomPlace];
       this.board[temp.y][temp.x].isOccupied = true;
       this.board[temp.y][temp.x].kulkaColor = this.futureKulkas[i];
-      if (this.checkMatch(temp)) {
-        console.log(temp);
-      } else {
+      if (!this.checkMatch(temp)) {
         this.listOfFreePlaces.splice(randomPlace, 1);
       }
     }
@@ -284,10 +290,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
       case 3:
         return KulkaColors.Green;
     }
-  }
-  ngOnInit() {
-    this.resetBoard();
-    this.switchLanguage(Resources.LANGUAGE);
   }
   displayListOfFreePlaces() {
     let testBoard: any[] | boolean[][][][];

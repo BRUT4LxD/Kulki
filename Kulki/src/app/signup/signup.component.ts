@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Resources } from '../resources';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../Models/user';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +12,7 @@ import { User } from '../Models/user';
 })
 export class SignupComponent implements OnInit, AfterViewInit {
 
-  constructor(private translate: TranslateService, private http: HttpClient) {
+  constructor(private translate: TranslateService, private httpService: HttpService) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
@@ -19,7 +20,6 @@ export class SignupComponent implements OnInit, AfterViewInit {
   public name: string;
   public email: string;
   public password: string;
-  private url = 'http://localhost:8080/user';
 
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
@@ -31,17 +31,14 @@ export class SignupComponent implements OnInit, AfterViewInit {
     this.switchLanguage(Resources.LANGUAGE);
   }
   createPlayer() {
-    console.log('siema');
     const user = new User();
     user.email = this.email;
     user.name = this.name;
     user.password = this.password;
-    this.http.post(this.url, user, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }).subscribe(a => console.log(a), err => console.log(err),
-    () => console.log(user));
+    this.httpService.createPlayer(user)
+          .subscribe(
+            a => a,
+            err => console.log(err));
   }
 
 }

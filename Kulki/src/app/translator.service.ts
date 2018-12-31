@@ -11,7 +11,6 @@ export class TranslatorService {
     translate.setDefaultLang('en');
   }
   switchLanguage(language: string) {
-    console.log('changed language to ' + language);
     Resources.LANGUAGE = language;
     this.translate.use(language);
   }

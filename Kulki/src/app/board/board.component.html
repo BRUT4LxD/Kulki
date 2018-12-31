@@ -1,3 +1,7 @@
+
+<div class="resultTable">
+    <app-results></app-results>
+</div>
 <div #main class="main-view light">
     <div class="buttons-view">
         <div style="margin: 20px">
@@ -18,7 +22,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="basic">
+        <div class="basic shadow-lg  mb-5 rounded">
             <div *ngFor="let row of board">
                 <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
                     <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
