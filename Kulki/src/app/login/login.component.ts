@@ -13,6 +13,7 @@ import { HttpService } from '../http.service';
 export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private router: Router, private httpService: HttpService) {
+    this.loadSetting();
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
@@ -22,6 +23,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
   private user: any;
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
+  }
+  loadSetting() {
+    this.httpService.getSettings().subscribe( (a: any) => {
+      Resources.LANGUAGE = a.language;
+      Resources.THEME = a.theme;
+    }, err => console.log(err),
+    () => {
+      this.switchLanguage(Resources.LANGUAGE);
+    });
   }
   switchLanguage(language: string) {
     this.translate.use(language);

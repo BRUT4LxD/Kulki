@@ -21,6 +21,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private futureKulkas: Array<KulkaColors>;
   private result = 0;
   private isGameOver: boolean;
+  private resetClicked = false;
   private firstPlay = true;
   public board: BoardElement[][];
   constructor(private translate: TranslateService, private httpService: HttpService) {
@@ -67,6 +68,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
+    this.resetClicked = !this.resetClicked;
     this.httpService.createGame(game)
       .subscribe(
         a => a,
@@ -132,7 +134,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.result += positionsToRemove.length;
     return positionsToRemove.length > 0;
   }
-
   checkHorizontal(position: Position): Array<Position> {
 
     let tempPositions = new Array<Position>();
@@ -301,7 +302,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
     this.listOfFreePlaces.forEach(e => testBoard[e.y][e.x] = true);
-    //console.table(testBoard);
   }
 
 
