@@ -1,6 +1,6 @@
 {
 	"Hi": "Hello",
-    "Title": "WELCOME IN KULKI GAME",
+    "Title": "WELCOME IN BALLS GAME",
 	"Home": "Home",
 	"Game": "Game",
 	"Settings": "Settings",
@@ -14,7 +14,7 @@
 	"JokeTitle": "(At least force yourself to laugh)",
 	"JokeDetails": "What's the best thing thing about UDP jokes? I don't care if you get them",
 	"Language": "Language",
-	"GameTitle": "KULKI GAME",
+	"GameTitle": "BALLS GAME",
 	"Login": "Log In",
 	"EmailAddress": "E-mail Address",
 	"EmailInvalid": "Email is invalid",
@@ -32,5 +32,6 @@
 	"Dark": "Dark",
 	"Light": "Light",
 	"Beige": "Beige",
-	"Result": "Result: "
+	"Result": "Result: ",
+	"Guest": "Play as a Guest"
 }

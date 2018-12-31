@@ -13,6 +13,10 @@
     }
     .blue{
         background-color: blue;
+        :hover{
+            transition: all 0.5s ease;
+            background-color: #aaaaaa
+        }
     }
     .noColor{
         background-color: aqua;

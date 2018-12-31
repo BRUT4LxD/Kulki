@@ -14,7 +14,7 @@ export class PageNotFoundComponent implements OnInit, AfterViewInit {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
-  
+
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }

@@ -2,9 +2,8 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { TranslateService } from '@ngx-translate/core';
 import { Resources } from '../resources';
 import '../../styles.scss';
-import { HttpClient } from '@angular/common/http';
 import { Route, Router } from '@angular/router';
-import { User } from '../Models/user';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +12,13 @@ import { User } from '../Models/user';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 
-  constructor(private translate: TranslateService, private http: HttpClient, private router: Router) {
+  constructor(private translate: TranslateService, private router: Router, private httpService: HttpService) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
 
   private email: string;
   private password: string;
-  private url = 'http://localhost:8080/user?';
   private user: any;
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
@@ -31,8 +29,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.switchLanguage(Resources.LANGUAGE);
   }
+  setGuest() {
+    this.httpService.setGuest()
+        .subscribe(
+          a => console.log(a),
+          err => console.log(err),
+          () => this.router.navigate(['/home'])
+        );
+  }
   checkLogin() {
-    this.http.get(`${this.url}email=${this.email}&password=${this.password}`)
+    this.httpService.login(this.email, this.password)
               .subscribe(a => {
                 this.user = a;
               }
@@ -41,9 +47,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                   if (this.user != null) {
                     Resources.IS_LOGGED_IN = true;
                   }
-                  console.log(this.user.name);
                   Resources.USER = this.user;
-                  console.log('this is a user' , Resources.USER);
                   if (Resources.IS_LOGGED_IN) {
                     this.router.navigate(['/home']);
                   } else {

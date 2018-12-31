@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Game } from '../Models/game';
-import { HttpClient } from '@angular/common/http';
-import { Resources } from '../resources';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-results',
@@ -10,16 +9,15 @@ import { Resources } from '../resources';
 })
 export class ResultsComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
+  constructor(private httpService: HttpService) {
   }
 
-  private getByUserIdUrl = 'http://localhost:8080/game/';
   private games: Game[];
   ngOnInit() {
     this.getTop5Results();
   }
   getTop5Results() {
-    this.http.get<Game[]>(`${this.getByUserIdUrl}${Resources.USER.id}`)
+    this.httpService.getTop5Results()
           .subscribe( games => this.games = games,
             err => console.log(err),
             () => {

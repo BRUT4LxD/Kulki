@@ -1,4 +1,4 @@
-<table class="table table-striped table-dark table-responsive">
+<table class="table table-striped table-dark table-responsive-lg shadow-lg  mb-5 rounded" style="width: 25em;">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -6,7 +6,7 @@
       <th scope="col">Date</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="row-element">
       <tr *ngFor="let game of games; let i = index">
         <th scope="row">{{i + 1}}</th>
         <td>{{game.result}}</td>

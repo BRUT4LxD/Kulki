@@ -5,8 +5,8 @@ import { KulkaColors } from '../Models/kulkaColors';
 import { Position } from '../Models/position';
 import { TranslateService } from '@ngx-translate/core';
 import '../../styles.scss';
-import { HttpClient } from '@angular/common/http';
 import { Game } from '../Models/game';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-board',
@@ -22,9 +22,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private result = 0;
   private isGameOver: boolean;
   private firstPlay = true;
-  private url = 'http://localhost:8080/game/';
   public board: BoardElement[][];
-  constructor(private translate: TranslateService, private http: HttpClient) {
+  constructor(private translate: TranslateService, private httpService: HttpService) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
@@ -68,7 +67,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
-    this.http.post(`${this.url}${Resources.USER.id}`, game).subscribe( a => console.log(a));
+    this.httpService.createGame(game)
+      .subscribe(
+        a => a,
+        err => console.log(err),
+        () => console.log('Game has been created'));
   }
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
@@ -262,7 +265,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addRandomKulkasOnBoard(numberOfKulkas: number): void {
     for (let i = 0; i < numberOfKulkas; i++) {
       if (this.listOfFreePlaces.length === 0) {
-        console.log('!!!!   GAME OVER   !!!!');
+        this.addGame();
+        this.isGameOver = true;
+        alert('GAME OVER');
         return;
       }
       const randomPlace = Math.floor(Math.random() * this.listOfFreePlaces.length);
