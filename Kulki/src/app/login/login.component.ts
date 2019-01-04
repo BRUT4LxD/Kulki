@@ -40,12 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.switchLanguage(Resources.LANGUAGE);
   }
   setGuest() {
-    this.httpService.setGuest()
-        .subscribe(
-          a => console.log(a),
-          err => console.log(err),
-          () => this.router.navigate(['/home'])
-        );
+    this.httpService.setGuestAndNavigate('/home');
   }
   checkLogin() {
     this.httpService.login(this.email, this.password)

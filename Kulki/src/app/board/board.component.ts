@@ -46,9 +46,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
   }
   resetBoard() {
-    if (!this.firstPlay && !this.isGameOver) {
-      this.addGame();
-    }
     this.isGameOver = false;
     this.firstPlay = false;
     this.result = 0;
@@ -71,13 +68,15 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.resetClicked = !this.resetClicked;
     this.httpService.createGame(game)
       .subscribe(
-        a => a,
+        a => console.log('game created: ', a),
         err => console.log(err));
   }
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
     if (this.listOfFreePlaces.length === 0) {
+      if (!this.isGameOver) {
       this.addGame();
+      }
       this.isGameOver = true;
       alert('GAME OVER');
       return;
@@ -265,7 +264,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addRandomKulkasOnBoard(numberOfKulkas: number): void {
     for (let i = 0; i < numberOfKulkas; i++) {
       if (this.listOfFreePlaces.length === 0) {
-        this.addGame();
+        if (!this.isGameOver) {
+          this.addGame();
+        }
         this.isGameOver = true;
         alert('GAME OVER');
         return;

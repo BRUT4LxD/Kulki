@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from './Models/user';
 import { Game } from './Models/game';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ constructor(private http: HttpClient, private router: Router) { }
 
 private userUrl = 'http://localhost:8080/user';
 private gameUrl = 'http://localhost:8080/game';
+private gameTop5Url = 'http://localhost:8080/games/top5';
 private timeUrl = 'http://worldclockapi.com/api/json/utc/now';
 private settingsUrl = '/assets/settings.json';
 public getUserById(id: string) {
@@ -23,8 +25,41 @@ public getUserById(id: string) {
 public getSettings(): Observable<any> {
   return this.http.get<any>(this.settingsUrl);
 }
-public setGuest(): Observable<User> {
-  return this.http.get<User>(`${this.userUrl}/5`);
+public getGuest() {
+  return this.http.get<User>(`${this.userUrl}?email=${Resources.GUEST_EMAIL}&password=${Resources.GUEST_PASSWORD}`)
+}
+public setGuest() {
+  this.getGuest()
+      .subscribe(guest => {
+        if (guest == null) {
+          this.createGuest();
+        } else {
+          Resources.USER = guest;
+        }
+      },
+      err => console.log('Error during guest creation: ', err));
+}
+public setGuestAndNavigate(path: string) {
+  this.getGuest()
+    .subscribe( guest => {
+      if (guest == null) {
+        this.createGuest();
+      } else {
+        Resources.USER = guest;
+      }
+    },
+      err => console.log('Error during guest creation: ', err),
+      () => {
+        this.router.navigate([path]);
+      });
+}
+public createGuest() {
+  const user = new User();
+  user.email = Resources.GUEST_EMAIL;
+  user.password = Resources.GUEST_PASSWORD;
+  this.createPlayer(user)
+    .subscribe( resp1 => console.log('response when creating guest: ', resp1),
+                err => console.log('error during guest creation: ', err));
 }
 public createPlayer(user: User): Observable<User> {
   return this.http.post<User>(this.userUrl, user, {
@@ -43,7 +78,7 @@ public login(email: string, password: string): Observable<User> {
   return this.http.get<User>(`${this.userUrl}?email=${email}&password=${password}`);
 }
 public getTop5Results(): Observable<Game[]> {
-  return this.http.get<Game[]>(`${this.gameUrl}/${!Resources.IS_LOGGED_IN ? '5' : Resources.USER.id}`);
+  return this.http.get<Game[]>(`${this.gameTop5Url}`);
 }
 
 }

@@ -14,9 +14,9 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private httpService: HttpService, private router: Router) {
     if (!Resources.IS_LOGGED_IN) {
-      httpService.setGuest().subscribe(guest => Resources.USER = guest);
+      httpService.setGuest();
     }
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
   ngAfterViewInit(): void {
@@ -26,12 +26,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     this.translate.use(language);
   }
   logout() {
-    this.httpService.setGuest()
-        .subscribe( (guest: any) => {
-          Resources.USER = guest;
-        },
-        err => console.log(err),
-        () => this.router.navigate(['/login']));
+    this.httpService.setGuestAndNavigate('/login');
     Resources.IS_LOGGED_IN = false;
   }
   ngOnInit() {

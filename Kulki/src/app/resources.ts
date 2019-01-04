@@ -7,4 +7,6 @@ export class Resources {
     static THEME = 'light';
     static IS_LOGGED_IN = false;
     static USER: User;
+    static GUEST_EMAIL = 'guest@guest.guest';
+    static GUEST_PASSWORD = 'guest';
 }
