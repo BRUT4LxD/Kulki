@@ -2,8 +2,9 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { TranslateService } from '@ngx-translate/core';
 import { Resources } from '../resources';
 import '../../styles.scss';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
+import { User } from '../Models/user';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +19,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   @ViewChild('main') mainDiv: ElementRef;
 
-  private email: string;
-  private password: string;
-  private user: any;
+  public user: User = {
+    name: null,
+    email: null,
+    password: null
+  };
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
@@ -43,7 +46,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.httpService.setGuestAndNavigate('/home');
   }
   checkLogin() {
-    this.httpService.login(this.email, this.password)
+    this.httpService.login(this.user.email, this.user.password)
               .subscribe(a => {
                 this.user = a;
               }

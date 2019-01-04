@@ -57,8 +57,9 @@ public createGuest() {
   const user = new User();
   user.email = Resources.GUEST_EMAIL;
   user.password = Resources.GUEST_PASSWORD;
+  user.name = Resources.GUEST_NAME;
   this.createPlayer(user)
-    .subscribe( resp1 => console.log('response when creating guest: ', resp1),
+    .subscribe( resp => resp,
                 err => console.log('error during guest creation: ', err));
 }
 public createPlayer(user: User): Observable<User> {

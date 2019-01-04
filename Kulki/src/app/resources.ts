@@ -9,4 +9,5 @@ export class Resources {
     static USER: User;
     static GUEST_EMAIL = 'guest@guest.guest';
     static GUEST_PASSWORD = 'guest';
+    static GUEST_NAME = 'Guest';
 }

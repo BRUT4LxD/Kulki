@@ -4,6 +4,7 @@ import { Resources } from '../resources';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../Models/user';
 import { HttpService } from '../http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -12,14 +13,18 @@ import { HttpService } from '../http.service';
 })
 export class SignupComponent implements OnInit, AfterViewInit {
 
-  constructor(private translate: TranslateService, private httpService: HttpService) {
+  constructor(private translate: TranslateService, private httpService: HttpService, private router: Router) {
     translate.setDefaultLang('en');
   }
   @ViewChild('main') mainDiv: ElementRef;
 
-  public name: string;
-  public email: string;
-  public password: string;
+  public agreedOnTermis = false;
+
+  public user: User = {
+    name: null,
+    email: null,
+    password: null
+  };
 
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
@@ -31,14 +36,11 @@ export class SignupComponent implements OnInit, AfterViewInit {
     this.switchLanguage(Resources.LANGUAGE);
   }
   createPlayer() {
-    const user = new User();
-    user.email = this.email;
-    user.name = this.name;
-    user.password = this.password;
-    this.httpService.createPlayer(user)
+    this.httpService.createPlayer(this.user)
           .subscribe(
             a => a,
-            err => console.log(err));
+            err => console.log(err),
+            () => this.router.navigate(['/login']));
   }
 
 }
