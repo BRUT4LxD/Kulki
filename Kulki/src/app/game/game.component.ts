@@ -9,7 +9,7 @@ import { Resources } from '../resources';
 })
 export class GameComponent implements OnInit, AfterViewInit {
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
   ngAfterViewInit(): void {

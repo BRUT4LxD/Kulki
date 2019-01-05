@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('main') mainDiv: ElementRef;
 
   constructor(private translate: TranslateService, private httpService: HttpService) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   private dayTime: Date;
   private temperature = '22';

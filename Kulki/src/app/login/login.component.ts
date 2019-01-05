@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private router: Router, private httpService: HttpService) {
     this.loadSetting();
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
 

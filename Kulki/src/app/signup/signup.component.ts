@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private httpService: HttpService, private router: Router) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
 
