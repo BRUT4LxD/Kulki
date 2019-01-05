@@ -19,7 +19,6 @@ export class AppComponent {
   }
   loadSetting() {
     this.httpService.getSettings().subscribe( (a: any) => {
-      Resources.LANGUAGE = a.language;
       Resources.THEME = a.theme;
     }, err => console.log(err),
     () => {

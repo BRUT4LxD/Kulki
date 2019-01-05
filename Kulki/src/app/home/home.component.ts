@@ -14,11 +14,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService, private httpService: HttpService) {
     translate.setDefaultLang(Resources.LANGUAGE);
+    this.temperature = this.getRandomNumber(1, 50);
   }
   private dayTime: Date;
-  private temperature = '22';
-  private userName = 'thisisme';
+  private temperature: number;
+  private userName = 'Guest';
 
+  getRandomNumber(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
