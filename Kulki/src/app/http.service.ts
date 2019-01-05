@@ -25,7 +25,7 @@ public getSettings(): Observable<any> {
   return this.http.get<any>(this.settingsUrl);
 }
 public getGuest() {
-  return this.http.get<User>(`${this.userUrl}?email=${Resources.GUEST_EMAIL}&password=${Resources.GUEST_PASSWORD}`)
+  return this.http.get<User>(`${this.userUrl}?email=${Resources.GUEST_EMAIL}&password=${Resources.GUEST_PASSWORD}`);
 }
 public setGuest() {
   this.getGuest()
