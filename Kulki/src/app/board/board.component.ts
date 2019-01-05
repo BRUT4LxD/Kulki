@@ -25,7 +25,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private firstPlay = true;
   public board: BoardElement[][];
   constructor(private translate: TranslateService, private httpService: HttpService) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
 

@@ -11,7 +11,7 @@ import '../../styles.scss';
 export class PageNotFoundComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
 

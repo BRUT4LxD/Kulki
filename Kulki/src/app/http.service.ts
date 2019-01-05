@@ -26,7 +26,7 @@ public getSettings(): Observable<any> {
   return this.http.get<any>(this.settingsUrl);
 }
 public getGuest() {
-  return this.http.get<User>(`${this.userUrl}?email=${Resources.GUEST_EMAIL}&password=${Resources.GUEST_PASSWORD}`)
+  return this.http.get<User>(`${this.userUrl}?email=${Resources.GUEST_EMAIL}&password=${Resources.GUEST_PASSWORD}`);
 }
 public setGuest() {
   this.getGuest()
@@ -57,9 +57,9 @@ public createGuest() {
   const user = new User();
   user.email = Resources.GUEST_EMAIL;
   user.password = Resources.GUEST_PASSWORD;
+  user.name = Resources.GUEST_NAME;
   this.createPlayer(user)
-    .subscribe( resp1 => console.log('response when creating guest: ', resp1),
-                err => console.log('error during guest creation: ', err));
+    .subscribe( resp => resp, err => console.log('error during guest creation: ', err));
 }
 public createPlayer(user: User): Observable<User> {
   return this.http.post<User>(this.userUrl, user, {

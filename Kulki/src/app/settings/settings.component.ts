@@ -16,7 +16,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   public secondLanguageShort: string;
   public theme = Resources.THEME;
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('en');
+    translate.setDefaultLang(Resources.LANGUAGE);
   }
   @ViewChild('main') mainDiv: ElementRef;
 
