@@ -78,7 +78,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       this.addGame();
       }
       this.isGameOver = true;
-      alert('GAME OVER');
+      alert(Resources.LANGUAGE === 'en' ? 'GAME OVER' : 'KONIEC GRY');
       return;
     }
     this.isClicked = !this.isClicked;
@@ -92,11 +92,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     if ( this.clickedKulka.position.x === boardElement.position.x
       && this.clickedKulka.position.y === boardElement.position.y) {
-        alert('You\'ve clicked on the same position');
+        alert(Resources.LANGUAGE === 'en' ? 'You\'ve clicked on the same position' : 'Naciśnięto tę samą pozycję');
       return;
     }
     if (boardElement.isOccupied) {
-      alert('you clicked on the ball');
+      alert(Resources.LANGUAGE === 'en' ? 'You can\'t put ball on the ball' : 'Nie można postawić kuli na kuli');
       return;
     }
     this.changeKulkaPosition(boardElement.position);
@@ -268,7 +268,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
           this.addGame();
         }
         this.isGameOver = true;
-        alert('GAME OVER');
+        alert(Resources.LANGUAGE === 'en' ? 'GAME OVER' : 'KONIEC GRY');
         return;
       }
       const randomPlace = Math.floor(Math.random() * this.listOfFreePlaces.length);
