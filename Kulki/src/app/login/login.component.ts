@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                   if (Resources.IS_LOGGED_IN) {
                     this.router.navigate(['/home']);
                   } else {
-                    alert('Invalid email or password');
+                    alert(Resources.LANGUAGE === 'en' ? 'Invalid email or password' : 'Nieprawidłowy email lub hasło');
                   }
                 });
     return;
