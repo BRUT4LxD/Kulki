@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit, AfterViewInit {
           .subscribe(
             a => a,
             err => {
-              let friendlyMessage;
+              let friendlyMessage: string;
               Resources.LANGUAGE === 'en' ?
                 friendlyMessage = 'Failed to create user. ' :
                 friendlyMessage = ' Błąd podczas tworzenia użytkownika. ';
