@@ -103,7 +103,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
-    game.time = new Date().getSeconds() - this.date.getSeconds();
+    game.time = (new Date().getTime() - this.date.getTime()) / 1000;
     this.resetClicked = !this.resetClicked;
     this.httpService.createGame(game)
       .subscribe(
