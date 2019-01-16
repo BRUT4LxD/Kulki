@@ -1,34 +1,65 @@
-
 <div class="resultTable">
-    <app-results></app-results>
+  <app-results></app-results>
 </div>
 <div #main class="main-view light">
+  <div *ngIf="!runGame" class="container">
+    <h1 translate>ColorChange</h1>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[0]" (change)="isColor($event,0)"><h2 translate>Red</h2></mat-checkbox>
+    </div>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[1]" (change)="isColor($event,1)"><h2 translate>Green</h2></mat-checkbox>
+    </div>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[2]" (change)="isColor($event,2)"><h2 translate>Orange</h2></mat-checkbox>
+    </div>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[3]" (change)="isColor($event,3)"><h2 translate>Purple</h2></mat-checkbox>
+    </div>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[4]" (change)="isColor($event,4)"><h2 translate>Pink</h2></mat-checkbox>
+    </div>
+    <div class="checxbox">
+      <mat-checkbox [checked]="myColors[5]" (change)="isColor($event,5)"><h2 translate>Blue</h2></mat-checkbox>
+    </div>
+    <div class="myButton">
+      <button translate (click)="startGame()" [disabled]="notEnoughColors" mat-raised-button color="accent"
+              class="btn">
+        Confirm
+      </button>
+    </div>
+  </div>
+  <div *ngIf="runGame">
     <div class="buttons-view">
-        <div style="margin: 20px">
-            <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">Reset</button>
-        </div>
+      <div style="margin: 20px">
+        <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">
+          Reset
+        </button>
+      </div>
     </div>
     <div class="container">
-        <div class="result mt-4">
-            <h2 translate >Result</h2><h2 [(ngModel)]="result" ngDefaultControl class="">{{result}}</h2>
-        </div>
+      <div class="result mt-4">
+        <h2 translate>Result</h2>
+        <h2 [(ngModel)]="result" ngDefaultControl class="">{{result}}</h2>
+      </div>
     </div>
     <div class="container">
-        <div class="basic futureKulkas">
-            <div class="inline" *ngFor="let kulka of futureKulkas">
-                <app-kulka [color]="kulka"></app-kulka>
-                <app-field></app-field>
-            </div>
+      <div class="basic futureKulkas">
+        <div class="inline" *ngFor="let kulka of futureKulkas">
+          <app-kulka [color]="kulka"></app-kulka>
+          <app-field></app-field>
         </div>
+      </div>
     </div>
     <div class="container">
-        <div class="basic shadow-lg  mb-5 rounded">
-            <div *ngFor="let row of board">
-                <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
-                    <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
-                    <app-field></app-field>
-                </div>
-            </div>
+      <div class="basic shadow-lg  mb-5 rounded">
+        <div *ngFor="let row of board">
+          <div *ngFor="let j of row" class="inline" (click)='processClick(j)'>
+            <app-kulka *ngIf="j.kulkaColor !== 'noColor'" [color]="j.kulkaColor"></app-kulka>
+            <app-field></app-field>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

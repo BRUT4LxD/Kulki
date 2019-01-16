@@ -33,5 +33,13 @@
 	"Light": "Light",
 	"Beige": "Beige",
 	"Result": "Result: ",
-	"Guest": "Play as a Guest"
+	"Guest": "Play as a Guest",
+  "Red": "Red",
+  "Green": "Green",
+  "Blue": "Blue",
+  "Orange": "Orange",
+  "Pink": "Pink",
+  "Purple": "Purple",
+  "ColorChange": "Choose colours for game:",
+  "Confirm" : "Confirm choice"
 }
