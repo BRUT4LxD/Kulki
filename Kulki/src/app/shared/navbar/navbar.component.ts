@@ -11,7 +11,6 @@ import { HttpService } from 'src/app/http.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-
   constructor(private translate: TranslateService, private httpService: HttpService, private router: Router) {
     if (!Resources.IS_LOGGED_IN) {
       httpService.setGuest();

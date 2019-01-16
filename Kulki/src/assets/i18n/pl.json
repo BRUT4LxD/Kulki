@@ -33,5 +33,13 @@
 	"Light": "Jasny",
 	"Beige": "Beżowy",
 	"Result": "Wynik: ",
-	"Guest": "Zagraj jako Gość"
+	"Guest": "Zagraj jako Gość",
+  "Red": "Czerwony",
+  "Green": "Zielony",
+  "Blue": "Niebieski",
+  "Orange": "Pomarańczowy",
+  "Pink": "Różowy",
+  "Purple": "Fioletowy",
+  "ColorChange": "Wybierz kolory do gry",
+  "Confirm" : "Zawierdź wybór"
 }
