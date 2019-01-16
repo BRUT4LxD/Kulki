@@ -32,6 +32,8 @@
 	"Dark": "Dark",
 	"Light": "Light",
 	"Beige": "Beige",
-	"Result": "Result: ",
-	"Guest": "Play as a Guest"
+	"Result": "Result ",
+	"Date": "Date ",
+	"Guest": "Play as a Guest",
+	"timeSpentPlaying": "Time spent playing: "
 }

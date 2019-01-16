@@ -2,6 +2,10 @@
 <br>
 <br>
 <div #main class="main-view dark">
+    <div class="play-time">
+            <h4 translate class="play-time" *ngIf="!(userName==='')">timeSpentPlaying: {{this.timeSpentPlaying}}s</h4>
+    </div>
+    
     <h4 translate class="title">Hi</h4>
     <h4 class="title" *ngIf="!isGuest">{{userName}}</h4>
     <h4 translate class="title">Title</h4>

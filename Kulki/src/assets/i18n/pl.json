@@ -32,6 +32,8 @@
 	"Dark": "Ciemny",
 	"Light": "Jasny",
 	"Beige": "Beżowy",
-	"Result": "Wynik: ",
-	"Guest": "Zagraj jako Gość"
+	"Result": "Wynik ",
+	"Date": "Data ",
+	"Guest": "Zagraj jako Gość",
+	"timeSpentPlaying": "Łączny czas gry: "
 }

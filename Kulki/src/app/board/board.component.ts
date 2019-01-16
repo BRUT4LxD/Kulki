@@ -23,9 +23,14 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private isGameOver: boolean;
   private resetClicked = false;
   private firstPlay = true;
+  private Resources: {};
   public board: BoardElement[][];
-  constructor(private translate: TranslateService, private httpService: HttpService) {
-    translate.setDefaultLang(Resources.LANGUAGE);
+  private date: Date;
+  private games: Game[];
+  private historyGames: Game[];
+  constructor(private httpService: HttpService) {
+    this.date = new Date();
+    this.Resources = Resources;
   }
   @ViewChild('main') mainDiv: ElementRef;
 
@@ -34,10 +39,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     this.resetBoard();
-    this.switchLanguage(Resources.LANGUAGE);
-  }
-  switchLanguage(language: string) {
-    this.translate.use(language);
+    this.getTop5Results();
+    this.getHistoricGames();
   }
   initFutureKulkas() {
     this.futureKulkas = new Array<KulkaColors>();
@@ -49,6 +52,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.isGameOver = false;
     this.firstPlay = false;
     this.result = 0;
+    this.date = new Date();
     this.initFutureKulkas();
     this.listOfFreePlaces = new Array<Position>();
     this.board = [];
@@ -65,17 +69,30 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
+    game.time = new Date().getSeconds() - this.date.getSeconds();
     this.resetClicked = !this.resetClicked;
     this.httpService.createGame(game)
       .subscribe(
         a => console.log('game created: ', a),
         err => console.log(err));
+    this.getTop5Results();
+    this.getHistoricGames();
+  }
+  getTop5Results() {
+    this.httpService.getTop5Results()
+          .subscribe( games => this.games = games,
+            err => console.log(err));
+  }
+  getHistoricGames() {
+    this.httpService.getTop100GamesByDate()
+          .subscribe( games => this.historyGames = games,
+            err => console.log(err));
   }
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
     if (this.listOfFreePlaces.length === 0) {
       if (!this.isGameOver) {
-      this.addGame();
+        this.addGame();
       }
       this.isGameOver = true;
       alert(Resources.LANGUAGE === 'en' ? 'GAME OVER' : 'KONIEC GRY');

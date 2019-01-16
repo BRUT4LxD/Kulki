@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Game } from '../Models/game';
 import { HttpService } from '../http.service';
 
@@ -7,19 +7,10 @@ import { HttpService } from '../http.service';
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.scss']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent  {
 
   constructor(private httpService: HttpService) {
   }
-
-  private games: Game[];
-  ngOnInit() {
-    this.getTop5Results();
-  }
-  getTop5Results() {
-    this.httpService.getTop5Results()
-          .subscribe( games => this.games = games,
-            err => console.log(err));
-  }
-
+  @Input() title: string;
+  @Input() games: Game[];
 }

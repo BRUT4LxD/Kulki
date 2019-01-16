@@ -11,10 +11,9 @@ import { User } from '../Models/user';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements AfterViewInit {
 
-  constructor(private translate: TranslateService, private router: Router, private httpService: HttpService) {
-    translate.setDefaultLang(Resources.LANGUAGE);
+  constructor(private router: Router, private httpService: HttpService) {
   }
   @ViewChild('main') mainDiv: ElementRef;
 
@@ -25,12 +24,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   };
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
-  }
-  switchLanguage(language: string) {
-    this.translate.use(language);
-  }
-  ngOnInit() {
-    this.switchLanguage(Resources.LANGUAGE);
   }
   setGuest() {
     this.httpService.setGuestAndNavigate('/home');
