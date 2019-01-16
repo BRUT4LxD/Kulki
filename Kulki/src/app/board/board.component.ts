@@ -6,8 +6,8 @@ import {KulkaColors} from '../Models/kulkaColors';
 import {Position} from '../Models/position';
 import {TranslateService} from '@ngx-translate/core';
 import '../../styles.scss';
-import {Game} from '../Models/game';
-import {HttpService} from '../http.service';
+import { Game } from '../Models/game';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-board',
@@ -26,13 +26,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private isGameOver: boolean;
   private resetClicked = false;
   private firstPlay = true;
+  private Resources: {};
   public board: BoardElement[][];
+  private date: Date;
+  private games: Game[];
+  private historyGames: Game[];
 
-  constructor(private translate: TranslateService, private httpService: HttpService, private cdr: ChangeDetectorRef) {
-    translate.setDefaultLang(Resources.LANGUAGE);
+  constructor(private httpService: HttpService) {
     this.myColors = [true, true, true, true, true, true];
     this.notEnoughColors = false;
     this.runGame = false;
+    this.date = new Date();
+    this.Resources = Resources;
   }
 
   @ViewChild('main') mainDiv: ElementRef;
@@ -43,11 +48,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.resetBoard();
-    this.switchLanguage(Resources.LANGUAGE);
-  }
-
-  switchLanguage(language: string) {
-    this.translate.use(language);
+    this.getTop5Results();
+    this.getHistoricGames();
   }
 
   initFutureKulkas() {
@@ -82,6 +84,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.isGameOver = false;
     this.firstPlay = false;
     this.result = 0;
+    this.date = new Date();
     this.initFutureKulkas();
     this.listOfFreePlaces = new Array<Position>();
     this.board = [];
@@ -89,7 +92,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       this.board[i] = [];
       for (let j = 0; j < Resources.NUMBER_OF_ROWS; j++) {
         this.board[i][j] = new BoardElement(false, KulkaColors.NoColor, new Position(j, i));
-        this.listOfFreePlaces.push(new Position(j, i));
+        this.listOfFreePlaces.push(new Position (j, i));
       }
     }
     this.addRandomKulkasOnBoard(Resources.NUMBER_OF_PER_TOUR);
@@ -100,11 +103,24 @@ export class BoardComponent implements OnInit, AfterViewInit {
   addGame() {
     const game = new Game();
     game.result = this.result;
+    game.time = new Date().getSeconds() - this.date.getSeconds();
     this.resetClicked = !this.resetClicked;
     this.httpService.createGame(game)
       .subscribe(
         a => console.log('game created: ', a),
         err => console.log(err));
+    this.getTop5Results();
+    this.getHistoricGames();
+  }
+  getTop5Results() {
+    this.httpService.getTop5Results()
+          .subscribe( games => this.games = games,
+            err => console.log(err));
+  }
+  getHistoricGames() {
+    this.httpService.getTop100GamesByDate()
+          .subscribe( games => this.historyGames = games,
+            err => console.log(err));
   }
 
   processClick(boardElement: BoardElement) {
@@ -126,9 +142,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
       this.clickedKulka = boardElement;
       return;
     }
-    if (this.clickedKulka.position.x === boardElement.position.x
+    if ( this.clickedKulka.position.x === boardElement.position.x
       && this.clickedKulka.position.y === boardElement.position.y) {
-      alert(Resources.LANGUAGE === 'en' ? 'You\'ve clicked on the same position' : 'Naciśnięto tę samą pozycję');
+        alert(Resources.LANGUAGE === 'en' ? 'You\'ve clicked on the same position' : 'Naciśnięto tę samą pozycję');
       return;
     }
     if (boardElement.isOccupied) {
@@ -154,16 +170,16 @@ export class BoardComponent implements OnInit, AfterViewInit {
     let tempPositions = new Array<Position>();
 
     tempPositions = this.checkHorizontal(position);
-    tempPositions.forEach(e => positionsToRemove.push(new Position(e.x, e.y)));
+    tempPositions.forEach( e => positionsToRemove.push(new Position(e.x, e.y)));
 
     tempPositions = this.checkVertical(position);
-    tempPositions.forEach(e => positionsToRemove.push(new Position(e.x, e.y)));
+    tempPositions.forEach( e => positionsToRemove.push(new Position(e.x, e.y)));
 
     tempPositions = this.checkDiagonal1(position);
-    tempPositions.forEach(e => positionsToRemove.push(new Position(e.x, e.y)));
+    tempPositions.forEach( e => positionsToRemove.push(new Position(e.x, e.y)));
 
     tempPositions = this.checkDiagonal2(position);
-    tempPositions.forEach(e => positionsToRemove.push(new Position(e.x, e.y)));
+    tempPositions.forEach( e => positionsToRemove.push(new Position(e.x, e.y)));
 
     positionsToRemove.forEach(element => {
       this.removeKulkaFromPosition(element.x, element.y);
@@ -176,11 +192,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
     let tempPositions = new Array<Position>();
     let counter = 0;
-    for (let i = 0; i < 9; i++) {
-      if (this.board[i][position.x].kulkaColor === this.board[position.y][position.x].kulkaColor) {
+    for ( let i = 0 ; i < 9; i++ ) {
+      if (this.board[i][position.x].kulkaColor === this.board[position.y][position.x].kulkaColor ) {
         counter++;
         tempPositions.push(new Position(position.x, i));
-      } else if (counter < 5) {
+      } else  if (counter < 5 ) {
         tempPositions = [];
         counter = 0;
       } else {
@@ -188,21 +204,20 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (tempPositions.length < 5) {
+    if ( tempPositions.length < 5) {
       tempPositions = [];
     }
 
     return tempPositions;
   }
-
   checkVertical(position: Position): Array<Position> {
     let tempPositions = new Array<Position>();
     let counter = 0;
-    for (let i = 0; i < 9; i++) {
-      if (this.board[position.y][i].kulkaColor === this.board[position.y][position.x].kulkaColor) {
+    for ( let i = 0 ; i < 9; i++ ) {
+      if (this.board[position.y][i].kulkaColor === this.board[position.y][position.x].kulkaColor ) {
         counter++;
         tempPositions.push(new Position(i, position.y));
-      } else if (counter < 5) {
+      } else  if (counter < 5 ) {
         tempPositions = [];
         counter = 0;
       } else {
@@ -210,7 +225,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (tempPositions.length < 5) {
+    if ( tempPositions.length < 5) {
       tempPositions = [];
     }
     return tempPositions;
@@ -228,14 +243,14 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     let tempPositions = new Array<Position>();
     let counter = 0;
-    for (let i = 0; i < 9; i++) {
-      if (starty + i > 8 || startx + i > 8) {
+    for ( let i = 0 ; i < 9; i++ ) {
+      if ( starty + i > 8 || startx + i > 8) {
         break;
       }
-      if (this.board[starty + i][startx + i].kulkaColor === this.board[position.y][position.x].kulkaColor) {
+      if (this.board[starty + i][startx + i].kulkaColor === this.board[position.y][position.x].kulkaColor ) {
         counter++;
         tempPositions.push(new Position(startx + i, starty + i));
-      } else if (counter < 5) {
+      } else  if (counter < 5 ) {
         tempPositions = [];
         counter = 0;
       } else {
@@ -243,7 +258,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (tempPositions.length < 5) {
+    if ( tempPositions.length < 5) {
       tempPositions = [];
     }
 
@@ -262,14 +277,14 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     let tempPositions = new Array<Position>();
     let counter = 0;
-    for (let i = 0; i < 9; i++) {
-      if (starty - i < 0 || startx + i > 8) {
+    for ( let i = 0 ; i < 9; i++ ) {
+      if ( starty - i < 0 || startx + i > 8) {
         break;
       }
-      if (this.board[starty - i][startx + i].kulkaColor === this.board[position.y][position.x].kulkaColor) {
+      if (this.board[starty - i][startx + i].kulkaColor === this.board[position.y][position.x].kulkaColor ) {
         counter++;
         tempPositions.push(new Position(startx + i, starty - i));
-      } else if (counter < 5) {
+      } else  if (counter < 5 ) {
         tempPositions = [];
         counter = 0;
       } else {
@@ -277,7 +292,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    if (tempPositions.length < 5) {
+    if ( tempPositions.length < 5) {
       tempPositions = [];
     }
 

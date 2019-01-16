@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   private dayTime: Date;
   private temperature: number;
   private userName = 'Guest';
+  private timeSpentPlaying: string;
 
   getRandomNumber(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
@@ -33,6 +34,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.switchLanguage(Resources.LANGUAGE);
     this.getTime();
     this.userName = Resources.IS_LOGGED_IN ? Resources.USER.name : '';
+    this.getTimeSpentPlaying();
+  }
+  getTimeSpentPlaying() {
+    this.httpService.getTimeSpentPlaying(Resources.USER.id)
+      .subscribe(time => time == null ? this.timeSpentPlaying = '0' : this.timeSpentPlaying = time);
   }
   getTime(): void {
     this.httpService.getTime().subscribe((a: any) => {

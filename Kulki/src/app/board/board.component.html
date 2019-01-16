@@ -1,5 +1,9 @@
+
 <div class="resultTable">
-  <app-results></app-results>
+    <app-results [title]="'Top 5'" [(ngModel)]="games"  ngDefaultControl  [games]="games"></app-results>
+</div>
+<div id="style-1" class="historyTable scrollbar">
+    <app-results [title]="Resources.LANGUAGE == 'en' ? 'History' : 'Poprzednie gry'" [(ngModel)]="historyGames" ngDefaultControl [games]="historyGames"></app-results>
 </div>
 <div #main class="main-view light">
   <div *ngIf="!runGame" class="container">
@@ -31,11 +35,9 @@
   </div>
   <div *ngIf="runGame">
     <div class="buttons-view">
-      <div style="margin: 20px">
-        <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">
-          Reset
-        </button>
-      </div>
+        <div class="reset">
+            <button translate type="button" style="font-size: 3rem" class="btn btn-secondary btn-lg" (click)="resetBoard()">Reset</button>
+        </div>
     </div>
     <div class="container">
       <div class="result mt-4">
