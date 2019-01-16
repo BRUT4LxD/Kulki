@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { BoardElement } from '../Models/boardElement';
-import { Resources } from '../resources';
-import { KulkaColors } from '../Models/kulkaColors';
-import { Position } from '../Models/position';
-import { TranslateService } from '@ngx-translate/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
+import {BoardElement} from '../Models/boardElement';
+import {Resources} from '../resources';
+import {KulkaColors} from '../Models/kulkaColors';
+import {Position} from '../Models/position';
+import {TranslateService} from '@ngx-translate/core';
 import '../../styles.scss';
 import { Game } from '../Models/game';
 import { HttpService } from '../http.service';
@@ -14,7 +15,9 @@ import { HttpService } from '../http.service';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, AfterViewInit {
-
+  notEnoughColors: boolean;
+  runGame: boolean;
+  myColors: boolean [];
   private listOfFreePlaces: Array<Position>;
   private isClicked = false;
   private clickedKulka: BoardElement;
@@ -28,26 +31,55 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private date: Date;
   private games: Game[];
   private historyGames: Game[];
+
   constructor(private httpService: HttpService) {
+    this.myColors = [true, true, true, true, true, true];
+    this.notEnoughColors = false;
+    this.runGame = false;
     this.date = new Date();
     this.Resources = Resources;
   }
+
   @ViewChild('main') mainDiv: ElementRef;
 
   ngAfterViewInit(): void {
     this.mainDiv.nativeElement.className = 'main-view ' + Resources.THEME;
   }
+
   ngOnInit() {
     this.resetBoard();
     this.getTop5Results();
     this.getHistoricGames();
   }
+
   initFutureKulkas() {
     this.futureKulkas = new Array<KulkaColors>();
     for (let index = 0; index < Resources.NUMBER_OF_PER_TOUR; index++) {
       this.futureKulkas.push(this.getRandomKulkaColor());
     }
   }
+
+  isColor(event: MatCheckboxChange, num: number): void {
+    this.myColors[num] = event.checked;
+    let i;
+    let sum = 0;
+    for (i = 0; i < this.myColors.length; i++) {
+      if (this.myColors[i] === true) {
+        sum = sum + 1;
+      }
+    }
+    if (sum < 3) {
+      this.notEnoughColors = true;
+    } else {
+      this.notEnoughColors = false;
+    }
+    this.resetBoard();
+  }
+
+  startGame(): void {
+    this.runGame = true;
+  }
+
   resetBoard() {
     this.isGameOver = false;
     this.firstPlay = false;
@@ -65,7 +97,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     this.addRandomKulkasOnBoard(Resources.NUMBER_OF_PER_TOUR);
     this.getFutureKulkas();
+    this.runGame = false;
   }
+
   addGame() {
     const game = new Game();
     game.result = this.result;
@@ -88,6 +122,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
           .subscribe( games => this.historyGames = games,
             err => console.log(err));
   }
+
   processClick(boardElement: BoardElement) {
     this.displayListOfFreePlaces();
     if (this.listOfFreePlaces.length === 0) {
@@ -123,11 +158,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.displayListOfFreePlaces();
     this.clickedKulka = this.board[boardElement.position.y][boardElement.position.x];
   }
+
   getFutureKulkas() {
     for (let i = 0; i < this.futureKulkas.length; i++) {
       this.futureKulkas[i] = this.getRandomKulkaColor();
     }
   }
+
   checkMatch(position: Position): boolean {
     const positionsToRemove = new Array<Position>();
     let tempPositions = new Array<Position>();
@@ -150,6 +187,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.result += positionsToRemove.length;
     return positionsToRemove.length > 0;
   }
+
   checkHorizontal(position: Position): Array<Position> {
 
     let tempPositions = new Array<Position>();
@@ -192,6 +230,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
     return tempPositions;
   }
+
   checkDiagonal1(position: Position): Array<Position> {
     let startx = 0;
     let starty = 0;
@@ -225,6 +264,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
     return tempPositions;
   }
+
   checkDiagonal2(position: Position): Array<Position> {
     let startx = 0;
     let starty = 0;
@@ -258,11 +298,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
     return tempPositions;
   }
+
   removeKulkaFromPosition(x: number, y: number) {
     this.board[y][x].isOccupied = false;
     this.board[y][x].kulkaColor = KulkaColors.NoColor;
     this.listOfFreePlaces.push(new Position(x, y));
   }
+
   addKulkaOnPosition(destination: Position) {
     this.board[destination.y][destination.x].isOccupied = true;
     this.board[destination.y][destination.x].kulkaColor = this.clickedKulka.kulkaColor;
@@ -273,11 +315,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
   changeKulkaPosition(destination: Position) {
     this.addKulkaOnPosition(destination);
     this.removeKulkaFromPosition(this.clickedKulka.position.x, this.clickedKulka.position.y);
 
   }
+
   addRandomKulkasOnBoard(numberOfKulkas: number): void {
     for (let i = 0; i < numberOfKulkas; i++) {
       if (this.listOfFreePlaces.length === 0) {
@@ -300,16 +344,26 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   getRandomKulkaColor(): KulkaColors {
-    const value = Math.floor(Math.random() * 3) + 1;
+    let value = Math.floor(Math.random() * 6) + 1;
+    while (!this.myColors[value - 1] === true) {
+      value = Math.floor(Math.random() * 6) + 1;
+    }
     switch (value) {
       case 1:
         return KulkaColors.Red;
       case 2:
-        return KulkaColors.Blue;
-      case 3:
         return KulkaColors.Green;
+      case 3:
+        return KulkaColors.Orange;
+      case 4:
+        return KulkaColors.Purple;
+      case 5:
+        return KulkaColors.Pink;
+      case 6:
+        return KulkaColors.Blue;
     }
   }
+
   displayListOfFreePlaces() {
     let testBoard: any[] | boolean[][][][];
     testBoard = [];
